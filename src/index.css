@@ -99,4 +99,5 @@ button:active {
 
 .error-text {
   color: #e60808;
+  font-weight: bold;
 }

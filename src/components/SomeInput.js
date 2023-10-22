@@ -1,24 +1,30 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 const SomeInput = () => {
   const [name, setName] = useState('')
-  const nameRef = useRef()
+  const [isNameValid, setIsNameValid] = useState(true)
   function changeName(e) {
     setName(e.target.value)
   }
   function submitForm(e) {
     e.preventDefault()
-    console.log(nameRef.current.value, name)
+    if (name.trim() === '') {
+      setIsNameValid(false)
+      return
+    }
+    setIsNameValid(true)
+    setName('')
   }
+  const inputClass = isNameValid ? "form-control" : "form-control invalid"
   return (
     <form onSubmit={(e) => submitForm(e)}>
-      <div className="form-control">
-        <label htmlFor="name">Введите Имя</label>
+      <div className={inputClass}>
+        <label htmlFor="name">Enter your Name</label>
         <input type="text"
           id="name"
-          ref={nameRef}
           value={name}
           onInput={(e) => changeName(e)} />
       </div>
+      {!isNameValid && <p className="error-text">Enter your Name!!!</p>}
       <div className="form-actions">
         <button>Отправить</button>
       </div>
