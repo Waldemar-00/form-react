@@ -14,13 +14,13 @@ const SomeInput = () => {
   }
   function changeName(e) {
     setName(e.target.value.trim())
-    if (inputRef.current.value.length > 2) setIsNameValid(false)
+    if (inputRef.current.value.length > 0) setIsNameValid(false) // or e.target.value.trim()
     else setIsNameValid(true)
   }
   function submitForm(e) {
     e.preventDefault()
     setIsTouch(true)
-    if (name.trim() === '') {
+    if (name === '' || name.length < 3) {
       setIsNameValid(true)
       return
     }
@@ -40,7 +40,7 @@ const SomeInput = () => {
           onBlur={blurValidate}
           onInput={(e) => changeName(e)} />
       </div>
-      { isNameValid && isTouch && <p className="error-text">Enter your Name, more than three sign!!!</p> }
+      {isNameValid && isTouch && <p className="error-text">Enter Name, at least three characters!!!</p> }
       <div className="form-actions">
         <button>Отправить</button>
       </div>
