@@ -1,7 +1,6 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 const SomeInput = () => {
   const [name, setName] = useState('')
-  const inputRef = useRef()
   const [isNameValid, setIsNameValid] = useState(false)
   const [isTouch, setIsTouch] = useState(false)
   function changeTouch() {
@@ -14,7 +13,7 @@ const SomeInput = () => {
   }
   function changeName(e) {
     setName(e.target.value.trim())
-    if (inputRef.current.value.length > 0) setIsNameValid(false) // or e.target.value.trim()
+    if (e.target.value.trim().length > 0) setIsNameValid(false) // or use useRef
     else setIsNameValid(true)
   }
   function submitForm(e) {
@@ -34,7 +33,6 @@ const SomeInput = () => {
         <label htmlFor="name">Enter your Name</label>
         <input type="text"
           id="name"
-          ref={inputRef}
           value={name}
           onFocus={(e) => changeTouch(e)}
           onBlur={blurValidate}
@@ -47,5 +45,4 @@ const SomeInput = () => {
     </form>
   ) 
 } 
-
 export default SomeInput 
