@@ -3,16 +3,18 @@ const SomeInput = () => {
   const [name, setName] = useState('')
   const [isNameValid, setIsNameValid] = useState(false)
   const [isTouch, setIsTouch] = useState(false)
+  const [isValidForm, setIsValidForm] = useState(false)
   function changeTouch() {
     setIsTouch(true)
   }
-  function blurValidate() {
-    if (name.length < 1) {
+  function blurValidate(e) {
+    if (e.target.value.length < 3) {
       setIsNameValid(true)
     }
   }
   function changeName(e) {
     setName(e.target.value.trim())
+    setIsValidForm(false)
     if (e.target.value.trim().length > 0) setIsNameValid(false) // or use useRef
     else setIsNameValid(true)
   }
@@ -23,24 +25,62 @@ const SomeInput = () => {
       setIsNameValid(true)
       return
     }
+    fetch('https://custom-hooks-firebase-default-rtdb.firebaseio.com/products.json',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({name, email})
+      }
+    )
+    setIsValidForm(true)
     setIsNameValid(false)
     setName('')
+    setEmail('')
   }
   const inputClass = !isNameValid || !isTouch ? "form-control" : "form-control invalid"
+
+  const [email, setEmail] = useState('')
+  const [isValidEmail, setIsValidEmail] = useState(false)
+  const [isTouchEmail, setIsTouchEmail] = useState(false)
+  function changeTouchEmail() {
+    setIsTouchEmail(true)
+  }
+  function blurValidateEmail(e) {
+    if (e.target.value.length < 3 || !e.target.value.includes('@')) {
+      setIsValidEmail(true)
+    }
+  }
+  function changeEmail(e) {
+    setEmail(e.target.value.trim())
+    setIsValidForm(false)
+    if (e.target.value.trim().length > 0) setIsValidEmail(false)
+    else setIsValidEmail(true)
+  }
+  const inputClassEmail = !isValidEmail || !isTouchEmail ? "form-control" : "form-control invalid"
   return (
     <form onSubmit={(e) => submitForm(e)}>
-      <div className={inputClass}>
+      <div className={ inputClass }>
         <label htmlFor="name">Enter your Name</label>
         <input type="text"
           id="name"
           value={name}
           onFocus={(e) => changeTouch(e)}
-          onBlur={blurValidate}
+          onBlur={(e) => blurValidate(e)}
           onInput={(e) => changeName(e)} />
       </div>
-      {isNameValid && isTouch && <p className="error-text">Enter Name, at least three characters!!!</p> }
+      {isNameValid && isTouch && <p className="error-text">Enter Name, at least three characters!!!</p>}
+      <div className={ inputClassEmail }>
+        <label htmlFor="email">Enter your Email</label>
+        <input type="email"
+          id="email"
+          value={email}
+          onFocus={(e) => changeTouchEmail(e)}
+          onBlur={(e) => blurValidateEmail(e)}
+          onInput={(e) => changeEmail(e)} />
+      </div>
+      {isValidEmail && isTouchEmail && <p className="error-text">Enter Email, don't forget '@'!!!</p>}
       <div className="form-actions">
-        <button>Отправить</button>
+        <button disabled={isValidForm}>Отправить</button>
       </div>
     </form>
   ) 
