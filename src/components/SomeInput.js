@@ -3,18 +3,21 @@ const SomeInput = () => {
   const [name, setName] = useState('')
   const [isNameValid, setIsNameValid] = useState(false)
   const [isTouch, setIsTouch] = useState(false)
-  const [isValidForm, setIsValidForm] = useState(false)
+  const [isValidNameInput, setIsValidNameInput] = useState(false)
   function changeTouch() {
     setIsTouch(true)
   }
   function blurValidate(e) {
     if (e.target.value.length < 3) {
+      setIsValidNameInput(true)
       setIsNameValid(true)
+    } else {
+      setIsValidNameInput(false)
     }
   }
   function changeName(e) {
     setName(e.target.value.trim())
-    setIsValidForm(false)
+    setIsValidNameInput(false)
     if (e.target.value.trim().length > 0) setIsNameValid(false) // or use useRef
     else setIsNameValid(true)
   }
@@ -32,7 +35,7 @@ const SomeInput = () => {
         body: JSON.stringify({name, email})
       }
     )
-    setIsValidForm(true)
+    setIsValidNameInput(true)
     setIsNameValid(false)
     setName('')
     setEmail('')
@@ -42,17 +45,21 @@ const SomeInput = () => {
   const [email, setEmail] = useState('')
   const [isValidEmail, setIsValidEmail] = useState(false)
   const [isTouchEmail, setIsTouchEmail] = useState(false)
+  const [isValidEmailInput, setIsValidEmailInput] = useState(false)
   function changeTouchEmail() {
     setIsTouchEmail(true)
   }
   function blurValidateEmail(e) {
     if (e.target.value.length < 3 || !e.target.value.includes('@')) {
+      setIsValidEmailInput(true)
       setIsValidEmail(true)
+    } else {
+      setIsValidEmailInput(false)
     }
   }
   function changeEmail(e) {
     setEmail(e.target.value.trim())
-    setIsValidForm(false)
+    setIsValidNameInput(false)
     if (e.target.value.trim().length > 0) setIsValidEmail(false)
     else setIsValidEmail(true)
   }
@@ -80,7 +87,7 @@ const SomeInput = () => {
       </div>
       {isValidEmail && isTouchEmail && <p className="error-text">Enter Email, don't forget '@'!!!</p>}
       <div className="form-actions">
-        <button disabled={isValidForm}>Отправить</button>
+        <button disabled={isValidNameInput || isValidEmailInput}>Отправить</button>
       </div>
     </form>
   ) 
