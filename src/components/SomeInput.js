@@ -1,9 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 const SomeInput = () => {
   const [name, setName] = useState('')
   const [isNameValid, setIsNameValid] = useState(false)
   const [isTouch, setIsTouch] = useState(false)
   const [isValidNameInput, setIsValidNameInput] = useState(false)
+
+  const [email, setEmail] = useState('')
+  const [isValidEmail, setIsValidEmail] = useState(false)
+  const [isTouchEmail, setIsTouchEmail] = useState(false)
+  const [isValidEmailInput, setIsValidEmailInput] = useState(false)
+
+  useEffect(() => {
+    setIsValidNameInput(true)
+    setIsValidEmailInput(true)
+  }, [])
   function changeTouch() {
     setIsTouch(true)
   }
@@ -42,10 +52,6 @@ const SomeInput = () => {
   }
   const inputClass = !isNameValid || !isTouch ? "form-control" : "form-control invalid"
 
-  const [email, setEmail] = useState('')
-  const [isValidEmail, setIsValidEmail] = useState(false)
-  const [isTouchEmail, setIsTouchEmail] = useState(false)
-  const [isValidEmailInput, setIsValidEmailInput] = useState(false)
   function changeTouchEmail() {
     setIsTouchEmail(true)
   }
