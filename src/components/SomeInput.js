@@ -75,7 +75,9 @@ const SomeInput = () => {
           value={name}
           onFocus={() => changeTouch( setIsTouch )}
           onBlur={(e) => blurValidate(e)}
-          onInput={(e) => changeValue( e, setName, setIsValidNameInput, setIsNameValid )} />
+          onInput={(e) => changeValue(e, setName, setIsValidNameInput, setIsNameValid)}
+          onPaste={(e) => blurValidate(e)}
+        />
       </div>
       {isNameValid && isTouch && <p className="error-text">Enter Name, at least three characters!!!</p>}
       <div className={ inputClassEmail }>
@@ -86,7 +88,9 @@ const SomeInput = () => {
           value={email}
           onFocus={() => changeTouch(setIsTouchEmail)}
           onBlur={(e) => blurValidate(e)}
-          onInput={(e) => changeValue( e, setEmail, setIsValidNameInput, setIsValidEmail )} />
+          onInput={(e) => changeValue(e, setEmail, setIsValidNameInput, setIsValidEmail)}
+          onPaste={(e) => blurValidate(e)}
+        />
       </div>
       {isValidEmail && isTouchEmail && <p className="error-text">Enter Email, don't forget '@'!!!</p>}
       <div className="form-actions">
