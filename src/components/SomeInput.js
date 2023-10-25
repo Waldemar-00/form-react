@@ -14,22 +14,35 @@ const SomeInput = () => {
     setIsValidNameInput(true)
     setIsValidEmailInput(true)
   }, [])
-  function changeTouch() {
+  function changeTouch(setIsTouch) {
     setIsTouch(true)
   }
-  function blurValidate(e) {
-    if (e.target.value.length < 3) {
-      setIsValidNameInput(true)
-      setIsNameValid(true)
-    } else {
-      setIsValidNameInput(false)
-    }
+  function changeValue(e, setValue, setIsValidValueInput, setIsValueValid) {
+    setValue(e.target.value.trim())
+    setIsValidValueInput(false)
+    if (e.target.value.trim().length > 0) setIsValueValid(false) // or use useRef
+    else setIsValueValid(true)
   }
-  function changeName(e) {
-    setName(e.target.value.trim())
-    setIsValidNameInput(false)
-    if (e.target.value.trim().length > 0) setIsNameValid(false) // or use useRef
-    else setIsNameValid(true)
+  function blurValidate(e) {
+    switch (e.target.id) {
+      case 'name':
+        if (e.target.value.length < 3) {
+        setIsValidNameInput(true)
+        setIsNameValid(true)
+      } else {
+        setIsValidNameInput(false)
+      }
+        break
+      case 'email':
+        if (e.target.value.length < 3 || !e.target.value.includes('@')) {
+        setIsValidEmailInput(true)
+        setIsValidEmail(true)
+      } else {
+        setIsValidEmailInput(false)
+        }
+        break
+      default: return
+    }
   }
   function submitForm(e) {
     e.preventDefault()
@@ -51,45 +64,29 @@ const SomeInput = () => {
     setEmail('')
   }
   const inputClass = !isNameValid || !isTouch ? "form-control" : "form-control invalid"
-
-  function changeTouchEmail() {
-    setIsTouchEmail(true)
-  }
-  function blurValidateEmail(e) {
-    if (e.target.value.length < 3 || !e.target.value.includes('@')) {
-      setIsValidEmailInput(true)
-      setIsValidEmail(true)
-    } else {
-      setIsValidEmailInput(false)
-    }
-  }
-  function changeEmail(e) {
-    setEmail(e.target.value.trim())
-    setIsValidNameInput(false)
-    if (e.target.value.trim().length > 0) setIsValidEmail(false)
-    else setIsValidEmail(true)
-  }
   const inputClassEmail = !isValidEmail || !isTouchEmail ? "form-control" : "form-control invalid"
   return (
     <form onSubmit={(e) => submitForm(e)}>
       <div className={ inputClass }>
         <label htmlFor="name">Enter your Name</label>
-        <input type="text"
+        <input
+          type="text"
           id="name"
           value={name}
-          onFocus={(e) => changeTouch(e)}
+          onFocus={() => changeTouch( setIsTouch )}
           onBlur={(e) => blurValidate(e)}
-          onInput={(e) => changeName(e)} />
+          onInput={(e) => changeValue( e, setName, setIsValidNameInput, setIsNameValid )} />
       </div>
       {isNameValid && isTouch && <p className="error-text">Enter Name, at least three characters!!!</p>}
       <div className={ inputClassEmail }>
         <label htmlFor="email">Enter your Email</label>
-        <input type="email"
+        <input
+          type="email"
           id="email"
           value={email}
-          onFocus={(e) => changeTouchEmail(e)}
-          onBlur={(e) => blurValidateEmail(e)}
-          onInput={(e) => changeEmail(e)} />
+          onFocus={() => changeTouch(setIsTouchEmail)}
+          onBlur={(e) => blurValidate(e)}
+          onInput={(e) => changeValue( e, setEmail, setIsValidNameInput, setIsValidEmail )} />
       </div>
       {isValidEmail && isTouchEmail && <p className="error-text">Enter Email, don't forget '@'!!!</p>}
       <div className="form-actions">
