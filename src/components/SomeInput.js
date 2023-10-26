@@ -94,7 +94,7 @@ const SomeInput = () => {
       </div>
       {isValidEmail && isTouchEmail && <p className="error-text">Enter Email, don't forget '@'!!!</p>}
       <div className="form-actions">
-        <button disabled={isValidNameInput || isValidEmailInput}>Отправить</button>
+        <button disabled={isValidNameInput || isValidEmailInput}>Submit</button>
       </div>
     </form>
   ) 
