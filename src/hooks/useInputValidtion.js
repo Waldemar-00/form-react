@@ -1,16 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 export default function useInputValidation() {
-  const [isValidate, setValidate] = useState(false)
-  const [isTouch, setTouch] = useState(false)
+  const [isValidate, setValidate] = useState(true)
   const [inputStyle, setInputStyle] = useState("form-control") 
-  function checkValidation(e) {
+  useEffect(() => {
+    setInputStyle(inputStyle => inputStyle = isValidate ? "form-control" : "form-control invalid")
+  }, [ isValidate ])
+  function checkValidation(e, sings) {
     switch (e.target.id) {
       case 'name': 
       case 'surname':
-        if (e.target.value.length > 0) {
-          setValidate(true)
+        if (e.target.value.length >= sings) {
+          setValidate(isValidate => isValidate = true)
         } else {
-          setValidate(false)
+          setValidate(isValidate => isValidate = false)
         }
         break
       case 'email': 
@@ -23,14 +25,17 @@ export default function useInputValidation() {
         default: return 
     }
   }
-  function checkTouch(e) {
-    setTouch(true)
-    setInputStyle(isValidate && isTouch ? "form-control" : "form-control invalid")
+  function checkFocus(e) {
+    checkValidation(e, 0)
+  }
+  function checkBlur(e) {
+    checkValidation(e, 3)
   }
   return {
     isValidate,
     inputStyle,
     checkValidation,
-    checkTouch
+    checkFocus,
+    checkBlur
   }
 }
