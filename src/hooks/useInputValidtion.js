@@ -9,17 +9,20 @@ export default function useInputValidation() {
     switch (e.target.id) {
       case 'name': 
       case 'surname':
-        if (e.target.value.length >= sings) {
+        if (e.target.value.trim().length >= sings) {
           setValidate(isValidate => isValidate = true)
         } else {
           setValidate(isValidate => isValidate = false)
         }
         break
       case 'email': 
-        if (e.target.value.includes('@')) {
-          setValidate(true)
-        } else {
-          setValidate(false)
+        if (e.target.value.trim().length >= sings && sings === 0) {
+          setValidate(isValidate => isValidate = true)
+        } else if ((e.target.value.trim().length >= sings && sings === 3) && e.target.value.trim().includes('@')) {
+          setValidate(isValidate => isValidate = true)
+        }
+        else {
+          setValidate(isValidate => isValidate = false)
         }
         break
         default: return 
@@ -31,11 +34,15 @@ export default function useInputValidation() {
   function checkBlur(e) {
     checkValidation(e, 3)
   }
+  function returnValidate() {
+    return isValidate
+  }
   return {
     isValidate,
     inputStyle,
     checkValidation,
     checkFocus,
-    checkBlur
+    checkBlur,
+    returnValidate,
   }
 }

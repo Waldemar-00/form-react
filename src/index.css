@@ -97,12 +97,10 @@ button:disabled {
   background-color: #e3caca;
 }
 
-.invalid input:focus {
-  border-color: #e87c01;
-  background-color: #decfbe;
-}
-
 .error-text {
   color: #e60808;
   font-weight: bold;
+}
+.invalid, p {
+  color: red
 }
