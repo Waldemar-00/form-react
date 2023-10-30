@@ -1,20 +1,20 @@
 import useInputValidation from '../hooks/useInputValidtion'
-export default function Input({ id, type, validate_1, validate_2, validate_3 }) {
+export default function Input({ id, type, validate }) {
   const { isValidate, inputStyle, checkFocus, checkBlur, checkValidation } = useInputValidation()
   let content
   function returnValidation() {
     switch (id) {
       case 'name':
         content = <p>Enter more than two characters!</p>
-        validate_1(isValidate) 
+        validate(isValidate, id) 
         break
       case 'surname':
         content = <p>Enter more than two characters!</p>
-        validate_2(isValidate)
+        validate(isValidate, id)
         break
       case 'email':
         content = <p>Enter more than two characters<br /> And Don't forget '@'!</p>
-        validate_3(isValidate)
+        validate(isValidate, id)
         break
       default: return
     }
