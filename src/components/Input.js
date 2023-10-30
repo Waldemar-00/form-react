@@ -28,7 +28,6 @@ export default function Input({ id, type, validate }) {
         id={id}
         type={type}
         onFocus={(e) => {
-          
           checkFocus(e)
         }}
         onBlur={(e) => {

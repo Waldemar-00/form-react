@@ -1,8 +1,9 @@
-import SomeForm from './components/SomeForm'
+import SomeFormYet from './components/SomeFormYet'
+
 function App() {
   return (
     <div className="app">
-      <SomeForm />
+      <SomeFormYet />
     </div>
   ) 
 }
