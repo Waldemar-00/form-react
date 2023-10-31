@@ -23,11 +23,12 @@ function SomeFormYet() {
   } = useInputValidation()
   const contentName = <p>Enter more than two characters!</p> 
   const contentEmail = <p>Enter more than two characters<br /> And Don't forget '@'!</p>
+  const isDisabled = !isValidateName || !isValidateSurname || !isValidateEmail ? true : false
   return (
     <form>
       <div className="control-group">
         <div className={inputStyleName}>
-          <label htmlFor="name">Введите Имя</label>
+          <label htmlFor="name">Name</label>
           <input
             type="text"
             id="name"
@@ -38,7 +39,7 @@ function SomeFormYet() {
           {!isValidateName && contentName}
         </div>
         <div className={inputStyleSurname}>
-          <label htmlFor="name">Введите Фамилию</label>
+          <label htmlFor="name">Surname</label>
           <input
             type="text"
             id="surname"
@@ -50,7 +51,7 @@ function SomeFormYet() {
         </div>
       </div>
       <div className={inputStyleEmail}>
-        <label htmlFor="name">Введите E-Mail</label>
+        <label htmlFor="name">E-Mail</label>
         <input
           type="email"
           id="email"
@@ -61,7 +62,7 @@ function SomeFormYet() {
         {!isValidateEmail && contentEmail}
       </div>
       <div className="form-actions">
-        <button>Отправить</button>
+        <button disabled={isDisabled}>Submit</button>
       </div>
     </form>
   )
